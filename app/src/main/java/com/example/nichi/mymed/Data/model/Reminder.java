@@ -32,6 +32,17 @@ public class Reminder {
             + "PRIMARY KEY (" + COLUMN_MEDICINE_ID + " , "+ COLUMN_TREATMENT_ID +")" +
             ");";
 
+    public Reminder() {
+    }
+
+    public Reminder(int treatment_id, int medicine_id, int times, int frequency_id, int schedule_id) {
+        this.treatment_id = treatment_id;
+        this.medicine_id = medicine_id;
+        this.times = times;
+        this.frequency_id = frequency_id;
+        this.schedule_id = schedule_id;
+    }
+
     public Reminder(int id, int treatment_id, int medicine_id, int times, int frequency_id, int schedule_id) {
         this.id = id;
         this.treatment_id = treatment_id;

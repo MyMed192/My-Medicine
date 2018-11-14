@@ -1,8 +1,6 @@
 package com.example.nichi.mymed.Data.model;
 
 
-import java.util.Date;
-
 public class Treatments {
 
     public final static String TABLE_NAME = "treatments";
@@ -10,13 +8,13 @@ public class Treatments {
     public final static String COLUMN_TREATMENT_NAME ="name";
     public final static String COLUMN_TREATMENT_START_DATE = "start_date";
     public final static String COLUMN_TREATMENT_END_DATE = "end_date";
-    public final static String COLUMN_TREATMENT_STATE_ID = State._ID;
+    public final static String COLUMN_TREATMENT_STATE_ID = TreatmentState._ID;
     public final static String COLUMN_TREATMENT_DESCRIPTION = "description";
 
     private int id;
     private String name;
-    private Date start_date;
-    private Date end_date;
+    private String start_date;
+    private String end_date;
     private int state_id;
     private String description;
 
@@ -29,13 +27,25 @@ public class Treatments {
                 + COLUMN_TREATMENT_DESCRIPTION + "TEXT"
                 + "FOREIGN KEY (state_id) REFERENCES state(_ID));";
 
-    public Treatments(int id, String name, Date start_date, Date end_date, int state_id, String description) {
+    public Treatments(int id, String name, String start_date, String end_date, int state_id, String description) {
         this.id = id;
         this.name = name;
         this.start_date = start_date;
         this.end_date = end_date;
         this.state_id = state_id;
         this.description = description;
+    }
+
+    public Treatments(String name, String startdate, String endate, int state_id, String comments) {
+        this.name=name;
+        this.start_date = startdate;
+        this.end_date = endate;
+        this.state_id = state_id;
+        this.description =  comments;
+    }
+
+    public Treatments() {
+
     }
 
     public int getId() {
@@ -54,19 +64,19 @@ public class Treatments {
         this.name = name;
     }
 
-    public Date getStart_date() {
+    public String getStart_date() {
         return start_date;
     }
 
-    public void setStart_date(Date start_date) {
+    public void setStart_date(String start_date) {
         this.start_date = start_date;
     }
 
-    public Date getEnd_date() {
+    public String getEnd_date() {
         return end_date;
     }
 
-    public void setEnd_date(Date end_date) {
+    public void setEnd_date(String end_date) {
         this.end_date = end_date;
     }
 

@@ -1,6 +1,5 @@
 package com.example.nichi.mymed.Data.model;
 
-import java.util.Date;
 
 public class Medicine {
 
@@ -13,7 +12,7 @@ public class Medicine {
 
         private int id;
         private String name;
-        private Date lifetime;
+        private String lifetime;
         private int quantity;
         private String comments;
 
@@ -23,9 +22,8 @@ public class Medicine {
                     + Medicine.COLUMN_MEDICINE_LIFETIME + " DATE, "
                     + Medicine.COLUMN_MEDICINE_QUANTITY + " INTEGER NOT NULL, "
                     + Medicine.COLUMN_MEDICINE_COMMENTS + " TEXT);";
-
-    public Medicine(int id, String name, Date lifetime, int quantity, String comments) {
-        this.id = id;
+public Medicine(){};
+    public Medicine(String name, String lifetime, int quantity, String comments) {
         this.name = name;
         this.lifetime = lifetime;
         this.quantity = quantity;
@@ -48,11 +46,11 @@ public class Medicine {
         return name;
     }
 
-    public Date getLifetime() {
+    public String getLifetime() {
         return lifetime;
     }
 
-    public void setLifetime(Date lifetime) {
+    public void setLifetime(String lifetime) {
         this.lifetime = lifetime;
     }
 

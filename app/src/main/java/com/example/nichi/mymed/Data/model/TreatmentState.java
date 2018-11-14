@@ -1,6 +1,6 @@
 package com.example.nichi.mymed.Data.model;
 
-class State {
+public class TreatmentState {
     public final static String TABLE_NAME = "state";
 
     public final static String _ID = "id";
@@ -16,9 +16,17 @@ class State {
             + COLUMN_STATE_NAME+ " TEXT NOT NULL" +
             ");";
 
-    public State(int id, String name) {
+    public TreatmentState(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public TreatmentState(String name) {
+        this.name=name;
+    }
+
+    public TreatmentState() {
+
     }
 
     public void setId(int id) {

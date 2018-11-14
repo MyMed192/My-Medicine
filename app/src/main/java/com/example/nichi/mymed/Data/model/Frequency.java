@@ -20,6 +20,10 @@ public class Frequency {
         this.name = name;
     }
 
+    public Frequency() {
+
+    }
+
     public int getId() {
         return id;
     }
