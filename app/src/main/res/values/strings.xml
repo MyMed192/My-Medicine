@@ -8,4 +8,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="success_adding_medicine">Medicine was added successfuly</string>
+    <string name="error_adding_medicine">Please complete all fields</string>
+    <string name="add_record">AddError</string>
 </resources>

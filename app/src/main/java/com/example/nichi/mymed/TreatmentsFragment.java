@@ -111,7 +111,7 @@ public class TreatmentsFragment extends Fragment {
         // Adding child data
         listDataHeader.add("Raceala");
         listDataHeader.add("Gripa");
-        listDataHeader.add("Siphilis");
+        listDataHeader.add("Angina");
 
         // Adding child data
         List<String> pastila1 = new ArrayList<String>();
@@ -119,11 +119,11 @@ public class TreatmentsFragment extends Fragment {
 
 
         List<String> pastila2 = new ArrayList<String>();
-        pastila2.add("Mo zarazit Ina si stau de mai mult de o luna racit");
+        pastila2.add("23 november 2016");
 
 
         List<String> pastila3 = new ArrayList<String>();
-        pastila3.add("A full pack(30pills)");
+        pastila3.add("31 december 2018");
 
 
         listDataChild.put(listDataHeader.get(0), pastila1); // Header, Child data
