@@ -112,8 +112,10 @@ public class MedicineFragment extends Fragment {
 
         // Adding child data
         listDataHeader.add("Ibuprofen");
-        listDataHeader.add("Durex");
+        listDataHeader.add("Valeriana");
         listDataHeader.add("Nurofen");
+        listDataHeader.add("Dexalghin");
+        listDataHeader.add("Choliver");
 
         // Adding child data
         List<String> pastila1 = new ArrayList<String>();
@@ -121,16 +123,25 @@ public class MedicineFragment extends Fragment {
 
 
         List<String> pastila2 = new ArrayList<String>();
-        pastila2.add("2 ");
+        pastila2.add("2 pills");
 
 
         List<String> pastila3 = new ArrayList<String>();
-        pastila3.add("A full pack(30pills)");
+        pastila3.add("10 pills");
 
+
+        List<String> pastila4 = new ArrayList<String>();
+        pastila3.add("3 pills");
+
+
+        List<String> pastila5 = new ArrayList<String>();
+        pastila3.add("45 pills");
 
         listDataChild.put(listDataHeader.get(0), pastila1); // Header, Child data
         listDataChild.put(listDataHeader.get(1), pastila2);
         listDataChild.put(listDataHeader.get(2), pastila3);
+        listDataChild.put(listDataHeader.get(3), pastila4);
+        listDataChild.put(listDataHeader.get(4), pastila5);
     }
 
 

@@ -1,5 +1,6 @@
 package com.example.nichi.mymed;
 
+import android.app.AlertDialog;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -19,13 +20,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-
+    private TextView textViewMedicineName;
+    private TextView textViewMedicineLifeTime;
+    private TextView textViewQuantity;
+    private TextView textViewComments;
+    private Button buttonSave;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -61,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -80,11 +88,47 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                final AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+                final View mView = getLayoutInflater().inflate(R.layout.layout_dialog, null);
+                mBuilder.setView(mView);
+                final AlertDialog dialog = mBuilder.create();
+                final EditText mName = (EditText) mView.findViewById(R.id.edit_medicineName);
+                final EditText mLifetime = (EditText) mView.findViewById(R.id.edit_medicineLifeTime);
+                final EditText mQuantity = (EditText) mView.findViewById(R.id.edit_medicineQuantity);
+                final EditText mComments = (EditText) mView.findViewById(R.id.edit_medicineComments);
+                Button mSave = (Button) mView.findViewById(R.id.buttonSave);
+                Button mCancel = (Button) mView.findViewById(R.id.buttonCancel);
+
+                mCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();            }
+        });
+                mSave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        if(!mName.getText().toString().isEmpty() &&
+                                !mLifetime.getText().toString().isEmpty() &&
+                                !mQuantity.getText().toString().isEmpty() &&
+                                !mComments.getText().toString().isEmpty()){
+                            Toast.makeText(MainActivity.this,
+                                    getString(R.string.success_adding_medicine),
+                                    Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(MainActivity.this,
+                                    getString(R.string.error_adding_medicine),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        mName.setText("");
+                        mLifetime.setText("");
+                        mQuantity.setText("");
+                        mComments.setText("");
+                    }
+                });
+                dialog.show();
             }
         });
-
 
     }
 

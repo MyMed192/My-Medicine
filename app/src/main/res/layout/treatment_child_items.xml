@@ -59,7 +59,7 @@
         android:layout_marginBottom="8dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:text="Mo zarazit Ina si stau de mai mult de o luna racit"
+        android:text="The greatest pill for my treatment!"
         android:textSize="17dip"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
