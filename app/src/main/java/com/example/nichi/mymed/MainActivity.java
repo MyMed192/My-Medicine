@@ -1,12 +1,8 @@
 package com.example.nichi.mymed;
 
-import android.app.AlertDialog;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,14 +15,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.example.nichi.mymed.mFragment.MedicineFragment;
+import com.example.nichi.mymed.mFragment.TreatmentsFragment;
 
 public class MainActivity extends AppCompatActivity {
     private TextView textViewMedicineName;
@@ -68,6 +64,12 @@ public class MainActivity extends AppCompatActivity {
         }, 5000);
 
 
+        //CheckBox checkBox = findViewById(R.id.checkBoxMedicine);
+        ImageButton imageButton = findViewById(R.id.deleteButton);
+
+        //while (checkBox.isChecked()) {
+        //    imageButton.setVisibility(View.VISIBLE);
+        //}
 
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
@@ -84,51 +86,51 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
-                final View mView = getLayoutInflater().inflate(R.layout.layout_dialog, null);
-                mBuilder.setView(mView);
-                final AlertDialog dialog = mBuilder.create();
-                final EditText mName = (EditText) mView.findViewById(R.id.edit_medicineName);
-                final EditText mLifetime = (EditText) mView.findViewById(R.id.edit_medicineLifeTime);
-                final EditText mQuantity = (EditText) mView.findViewById(R.id.edit_medicineQuantity);
-                final EditText mComments = (EditText) mView.findViewById(R.id.edit_medicineComments);
-                Button mSave = (Button) mView.findViewById(R.id.buttonSave);
-                Button mCancel = (Button) mView.findViewById(R.id.buttonCancel);
-
-                mCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();            }
-        });
-                mSave.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        if(!mName.getText().toString().isEmpty() &&
-                                !mLifetime.getText().toString().isEmpty() &&
-                                !mQuantity.getText().toString().isEmpty() &&
-                                !mComments.getText().toString().isEmpty()){
-                            Toast.makeText(MainActivity.this,
-                                    getString(R.string.success_adding_medicine),
-                                    Toast.LENGTH_SHORT).show();
-                        }else {
-                            Toast.makeText(MainActivity.this,
-                                    getString(R.string.error_adding_medicine),
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                        mName.setText("");
-                        mLifetime.setText("");
-                        mQuantity.setText("");
-                        mComments.setText("");
-                    }
-                });
-                dialog.show();
-            }
-        });
+        //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        //fab.setOnClickListener(new View.OnClickListener() {
+        //    @Override
+        //    public void onClick(View view) {
+        //        final AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+        //        final View mView = getLayoutInflater().inflate(R.layout.layout_dialog, null);
+        //        mBuilder.setView(mView);
+        //        final AlertDialog dialog = mBuilder.create();
+        //        final EditText mName = (EditText) mView.findViewById(R.id.edit_medicineName);
+        //        final EditText mLifetime = (EditText) mView.findViewById(R.id.edit_medicineLifeTime);
+        //        final EditText mQuantity = (EditText) mView.findViewById(R.id.edit_medicineQuantity);
+        //        final EditText mComments = (EditText) mView.findViewById(R.id.edit_medicineComments);
+        //        Button mSave = (Button) mView.findViewById(R.id.buttonSave);
+        //        Button mCancel = (Button) mView.findViewById(R.id.buttonCancel);
+//
+        //        mCancel.setOnClickListener(new View.OnClickListener() {
+        //            @Override
+        //            public void onClick(View view) {
+        //                dialog.dismiss();            }
+        //});
+        //        mSave.setOnClickListener(new View.OnClickListener() {
+        //            @Override
+        //            public void onClick(View view) {
+//
+        //                if(!mName.getText().toString().isEmpty() &&
+       //                        !mLifetime.getText().toString().isEmpty() &&
+       //                        !mQuantity.getText().toString().isEmpty() &&
+       //                        !mComments.getText().toString().isEmpty()){
+       //                    Toast.makeText(MainActivity.this,
+       //                            getString(R.string.success_adding_medicine),
+       //                            Toast.LENGTH_SHORT).show();
+       //                }else {
+       //                    Toast.makeText(MainActivity.this,
+       //                            getString(R.string.error_adding_medicine),
+       //                            Toast.LENGTH_SHORT).show();
+       //                }
+       //                mName.setText("");
+       //                mLifetime.setText("");
+        //                mQuantity.setText("");
+        //                mComments.setText("");
+        //            }
+        //        });
+        //        dialog.show();
+        //    }
+        //});
 
     }
 

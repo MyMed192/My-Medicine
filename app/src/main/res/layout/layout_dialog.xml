@@ -16,8 +16,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/edit_medicineName"
         android:layout_alignParentStart="true"
-        android:hint="Lifetime"
-        android:inputType="datetime" />
+
+        android:hint="Lifetime" />
 
     <EditText
         android:id="@+id/edit_medicineQuantity"

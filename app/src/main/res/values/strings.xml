@@ -11,4 +11,10 @@
     <string name="success_adding_medicine">Medicine was added successfuly</string>
     <string name="error_adding_medicine">Please complete all fields</string>
     <string name="add_record">AddError</string>
+
+    <string-array name="treatmentsState">
+        <item>Done</item>
+        <item>In Progress</item>
+        <item>To be done</item>
+    </string-array>
 </resources>
