@@ -3,6 +3,7 @@ package com.example.nichi.mymed.mFragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -10,10 +11,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nichi.mymed.mData.DataBaseAdapter;
@@ -38,6 +41,7 @@ public class MedicineFragment extends Fragment {
     ExpandableListView expListView;
     List<MedicineHeader> listDataHeader = new ArrayList<MedicineHeader>();
     HashMap<String, List<MedicineChild>> listDataChild = new HashMap<String, List<MedicineChild>>();
+    List<Medicine> medicines = new ArrayList<>();
     EditText mName;
     AlertDialog dialog;
     EditText mLifetime;
@@ -52,93 +56,47 @@ public class MedicineFragment extends Fragment {
     Activity mActivity;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_medicine, container, false);
 
         db = new DataBaseAdapter(getActivity().getApplicationContext());
-
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mBuilder = new AlertDialog.Builder(getActivity());
-                mView = getLayoutInflater().inflate(R.layout.layout_dialog, null);
-                mBuilder.setView(mView);
-                dialog = mBuilder.create();
-                mName = (EditText) mView.findViewById(R.id.edit_medicineName);
-                mLifetime = (EditText) mView.findViewById(R.id.edit_medicineLifeTime);
-                mQuantity = (EditText) mView.findViewById(R.id.edit_medicineQuantity);
-                mComments = (EditText) mView.findViewById(R.id.edit_medicineComments);
-                Button mSave = (Button) mView.findViewById(R.id.buttonSave);
-                final Button mCancel = (Button) mView.findViewById(R.id.buttonCancel);
-
-                mCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();            }
-                });
-                mSave.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        if(!mName.getText().toString().isEmpty() &&
-                                !mLifetime.getText().toString().isEmpty() &&
-                                !mQuantity.getText().toString().isEmpty() &&
-                                !mComments.getText().toString().isEmpty()){
-                            Toast.makeText(getActivity(),
-                                    getString(R.string.success_adding_medicine),
-                                    Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
-                        }else {
-                            Toast.makeText(getActivity(),
-                                    getString(R.string.error_adding_medicine),
-                                    Toast.LENGTH_SHORT).show();
-                        }
-
-                        listDataHeader.add(new MedicineHeader(mName.getText().toString(), mLifetime.getText().toString()));
-                        List<MedicineChild> pastilaFinal = new ArrayList<MedicineChild>();
-                        pastilaFinal.add(new MedicineChild(mQuantity.getText().toString(), mComments.getText().toString()));
-                        listDataChild.put(listDataHeader.get(listDataHeader.size()- 1).toString(), pastilaFinal);
-
-                        Medicine s = new Medicine();
-                        try {
-                            s.setName(mName.getText().toString());
-                            s.setQuantity(mQuantity.getText().toString());
-                            s.setComments(mComments.getText().toString());
-                            s.setLifetime(mLifetime.getText().toString());
-                        } catch ( NullPointerException e){
-
-                        }
-
-                        db.insertMedicine(s);
-
-                        mName.setText("");
-                        mLifetime.setText("");
-                        mQuantity.setText("");
-                        mComments.setText("");
-
-
-                        //boolean isInsered = db.insertMedicine(s);
-                        //if (isInsered) {
-                       //     Toast.makeText(getActivity(), "MEDICINE is added successfully!", Toast.LENGTH_SHORT).show();
-                        //} else {
-                        //    Toast.makeText(getActivity(), "ERROR IN ADDING MEDICINE", Toast.LENGTH_SHORT).show();
-                        //}
-                    }
-                });
-                dialog.show();
-
-            }
-        });
 
 
         // get the listview
         expListView = (ExpandableListView) view.findViewById(R.id.lvExp);
         // preparing list data
-        prepareListData();
+        //prepareListData();
 
         listAdapter = new MedicineAdapter(getActivity(), listDataHeader, listDataChild);
+
+        expListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                CharSequence colors[] = new CharSequence[]{"Edit", "Delete"};
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Choose option");
+                builder.setItems(colors, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == 0) {
+                            showMedicineDialog(medicines.get(position), position);
+                        } else {
+                            String name = listDataHeader.get(position).getHeaderTitle();
+                            db.deleteMedicine(name);
+                            listDataHeader.remove(position);
+                            expListView.invalidateViews();
+                        }
+                    }
+                });
+                builder.show();
+                return true;
+            }
+        });
+
+
+        listAdapter.notifyDataSetChanged();
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
@@ -201,6 +159,51 @@ public class MedicineFragment extends Fragment {
         return view;
     }
 
+    private void showMedicineDialog(final Medicine medicine, final int position) {
+        LayoutInflater layoutInflaterAndroid = LayoutInflater.from(getContext());
+        View view = layoutInflaterAndroid.inflate(R.layout.edit_dialog, null);
+
+        AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getActivity());
+        alertDialogBuilderUserInput.setView(view);
+
+        final EditText mName = view.findViewById(R.id.edit_medicineName);
+        final EditText mQuantity = view.findViewById(R.id.edit_medicineQuantity);
+        final EditText mExpirationDate = view.findViewById(R.id.edit_medicineExpirationDate);
+        final EditText mComments = view.findViewById(R.id.edit_medicineComments);
+
+        TextView dialogTitle = view.findViewById(R.id.dialog_title);
+        dialogTitle.setText(getString(R.string.lbl_edit_note_title));
+
+        if (medicine != null) {
+            mName.setText(medicine.getName());
+            mQuantity.setText(medicine.getQuantity());
+            mExpirationDate.setText(medicine.getLifetime());
+            mComments.setText(medicine.getComments());
+        }
+        alertDialogBuilderUserInput
+                .setCancelable(false)
+                .setPositiveButton( "update" , new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogBox, int id) {
+                        if (medicine != null) {
+                            // update note by it's id
+                            Medicine updMed=new Medicine(mName.getText().toString(),mExpirationDate.getText().toString(),mQuantity.getText().toString(),mComments.getText().toString());
+                            updateMedicine(updMed, position);
+                            expListView.invalidateViews();
+                        }
+                    }
+                })
+                .setNegativeButton("cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogBox, int id) {
+                                dialogBox.cancel();
+                            }
+                        });
+
+        final AlertDialog alertDialog = alertDialogBuilderUserInput.create();
+        alertDialog.show();
+
+    }
+
     private void prepareListData() {
 
         listDataHeader.add(new MedicineHeader("Ibuprofen", "01.01.2019"));
@@ -221,7 +224,7 @@ public class MedicineFragment extends Fragment {
         listDataChild.put(listDataHeader.get(2).toString(), pastila3);
 
     }
-    private void viewData() {
+    public void viewData() {
         Cursor cursor=db.getAllMedicines();
 
        if(cursor.getCount()==0)
@@ -232,6 +235,13 @@ public class MedicineFragment extends Fragment {
            List<MedicineChild> pastilaCursor = new ArrayList<MedicineChild>();
            pastilaCursor.add(new MedicineChild(cursor.getString(2),cursor.getString(4)));
            listDataChild.put(listDataHeader.get(listDataHeader.size()- 1).toString(),pastilaCursor);
+               Medicine m=new Medicine();
+               m.setId(cursor.getInt(0));
+               m.setName(cursor.getString(1));
+               m.setQuantity(cursor.getString(2));
+               m.setLifetime(cursor.getString(3));
+               m.setComments(cursor.getString(4));
+               medicines.add(m);
 
            }
 
@@ -241,25 +251,21 @@ public class MedicineFragment extends Fragment {
 
     }
 
-    public void addMedicine(){
+    void updateMedicine(Medicine m,int position){
+        Medicine n = medicines.get(position);
+        // updating note text
+        n.setName(m.getName());
+        n.setQuantity(m.getQuantity());
+        n.setLifetime(m.getLifetime());
+        n.setComments(m.getComments());
 
-        Medicine s = new Medicine();
-        try {
-            s.setName(mName.getText().toString());
-            s.setQuantity(mQuantity.getText().toString());
-            s.setComments(mComments.getText().toString());
-            s.setLifetime(mLifetime.getText().toString());
-        } catch ( NullPointerException e){
+        // updating note in db
+        db.updateMedicines(n);
 
-
-            boolean isInsered = db.insertMedicine(s);
-                if (isInsered) {
-                    Toast.makeText(getActivity(), "MEDICINE is added successfully!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getActivity(), "ERROR IN ADDING MEDICINE", Toast.LENGTH_SHORT).show();
-                }
-            }
-}
+        // refreshing the list
+        medicines.set(position, n);
+        listAdapter.notifyDataSetChanged();
+    }
 
 }
 

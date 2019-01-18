@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
@@ -37,8 +38,8 @@ public class TreatmentsFragment extends Fragment {
 
     TreatmentAdapter listAdapter;
     ExpandableListView expListView;
-    List<TreatmentHeader> listDataHeader;
-    HashMap<String, List<TreatmentChild>> listDataChild;
+    List<TreatmentHeader> listDataHeader = new ArrayList<>();
+    HashMap<String, List<TreatmentChild>> listDataChild = new HashMap<>();
     AlertDialog.Builder mBuilder;
     View mView;
     AlertDialog dialog;
@@ -55,93 +56,32 @@ public class TreatmentsFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_treatments, container, false);
 
         db = new DataBaseAdapter(getActivity().getApplicationContext());
         //treatmentState = (Spinner) mView.findViewById(R.id.treatmentState);
         //db.deleteTreatment(1);
 
-        FloatingActionButton fab = view.findViewById(R.id.fab2);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Intent intent = new Intent(getActivity(), AddTreatment.class);
-                //startActivity(intent);
-                mBuilder = new AlertDialog.Builder(getActivity());
-                mView = getLayoutInflater().inflate(R.layout.layout_dialog_treatments, null);
-                mBuilder.setView(mView);
-                dialog = mBuilder.create();
-                treatmentState = (Spinner) mView.findViewById(R.id.treatmentState);
-                treatmentTitle = (EditText) mView.findViewById(R.id.treatmentTitle);
-                treatmentStartDate = (EditText) mView.findViewById(R.id.treatmentStartDate);
-                treatmentEndDate = (EditText) mView.findViewById(R.id.treatmentEndDate);
-                treatmentDescription = (EditText) mView.findViewById(R.id.treatmentDescription);
-                Button mSave = (Button) mView.findViewById(R.id.saveTreatment);
-                Button mCancel = (Button) mView.findViewById(R.id.cancelTreatment);
-
-                String[] strText = { "Done", "In Progress", "To be done" };
-
-                SpinnerAdapter spAdapter = new SpinnerAdapter(getActivity(), R.layout.spinner_row, strText);
-                //spAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
-                treatmentState.setAdapter(spAdapter);
-
-                mCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-
-                mSave.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        if(!treatmentTitle.getText().toString().isEmpty() &&
-                                !treatmentStartDate.getText().toString().isEmpty() &&
-                                !treatmentEndDate.getText().toString().isEmpty() &&
-                                !treatmentDescription.getText().toString().isEmpty() &&
-                                !treatmentState.getSelectedItem().toString().isEmpty()){
-                            Toast.makeText(getActivity(), "Treatment was added successfuly", Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
-                        }else {
-                            Toast.makeText(getActivity(),
-                                    getString(R.string.error_adding_medicine),
-                                    Toast.LENGTH_SHORT).show();
-                        }
-
-                        listDataHeader.add(new TreatmentHeader(treatmentTitle.getText().toString(), treatmentState.getSelectedItem().toString()));
-                        List<TreatmentChild> treatmentFinal = new ArrayList<TreatmentChild>();
-                        treatmentFinal.add(new TreatmentChild(treatmentStartDate.getText().toString(),treatmentEndDate.getText().toString(),treatmentDescription.getText().toString()));
-                        listDataChild.put(listDataHeader.get(listDataHeader.size() - 1).toString(),treatmentFinal);
-
-                        Treatments treatment = new Treatments();
-                        try {
-                            treatment.setName(treatmentTitle.getText().toString());
-                            treatment.setStart_date(treatmentStartDate.getText().toString());
-                            treatment.setEnd_date(treatmentEndDate.getText().toString());
-                            treatment.setState_id(treatmentState.getSelectedItem().toString());
-                            treatment.setDescription(treatmentDescription.getText().toString());
-                        } catch ( NullPointerException e){
-
-                        }
-
-                        db.insertTreatment(treatment);
-
-                    }
-                });
-                dialog.show();
-            }
-        });
-
         // get the listview
         expListView = (ExpandableListView) view.findViewById(R.id.lvExp2);
 
         // preparing list data
-        prepareListData();
+        //prepareListData();
+        expListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                String name = listDataHeader.get(position).getTitle();
+                db.deleteTreatment(name);
+                listDataHeader.remove(position);
+                expListView.invalidateViews();
+                return false;
+            }
+        });
 
         listAdapter = new TreatmentAdapter(getActivity(), listDataHeader, listDataChild);
+
+        listAdapter.notifyDataSetChanged();
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
@@ -242,7 +182,7 @@ public class TreatmentsFragment extends Fragment {
         //}
     }
 
-    private void viewData() {
+    public void viewData() {
         Cursor cursor2 = db.getAllTreatments();
 
         if(cursor2.getCount()==0)

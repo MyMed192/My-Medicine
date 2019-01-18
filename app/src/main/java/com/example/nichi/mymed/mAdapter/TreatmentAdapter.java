@@ -13,15 +13,16 @@ import com.example.nichi.mymed.R;
 import com.example.nichi.mymed.mExpandables.TreatmentChild;
 import com.example.nichi.mymed.mExpandables.TreatmentHeader;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class TreatmentAdapter extends BaseExpandableListAdapter {
 
     private Context _context;
-    private List<TreatmentHeader> _listDataHeader; // header titles
+    private List<TreatmentHeader> _listDataHeader = new ArrayList<>(); // header titles
     // child data in format of header title, child title
-    private HashMap<String, List<TreatmentChild>> _listDataChild;
+    private HashMap<String, List<TreatmentChild>> _listDataChild = new HashMap<>();
 
     public TreatmentAdapter(Context context, List<TreatmentHeader> listDataHeader, HashMap<String, List<TreatmentChild>> listChildData) {
         this._context = context;

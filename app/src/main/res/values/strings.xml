@@ -11,6 +11,8 @@
     <string name="success_adding_medicine">Medicine was added successfuly</string>
     <string name="error_adding_medicine">Please complete all fields</string>
     <string name="add_record">AddError</string>
+    <string name="lbl_new_note_title">New medicine</string>
+    <string name="lbl_edit_note_title">Update medicine</string>
 
     <string-array name="treatmentsState">
         <item>Done</item>

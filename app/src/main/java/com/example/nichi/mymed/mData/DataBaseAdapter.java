@@ -105,10 +105,9 @@ public class DataBaseAdapter {
     }
 
     //delete medicine
-    public void deleteMedicine(long id) {
+    public void deleteMedicine(String name) {
         SQLiteDatabase db = helper.getWritableDatabase();
-        db.delete(Medicine.TABLE_NAME, Medicine._ID + " = ?",
-                new String[] { String.valueOf(id) });
+        db.delete(Medicine.TABLE_NAME, Medicine.COLUMN_MEDICINE_NAME + " = ?" , new String[] { String.valueOf(name) });
     }
 
     //get one medicine
@@ -262,10 +261,9 @@ public class DataBaseAdapter {
     }
 
     //delete treatment
-    public void deleteTreatment(long id) {
+    public void deleteTreatment(String name) {
         SQLiteDatabase db = helper.getWritableDatabase();
-        db.delete(Treatments.TABLE_NAME, Treatments._ID + " = ?",
-                new String[] { String.valueOf(id) });
+        db.delete(Treatments.TABLE_NAME, Treatments.COLUMN_TREATMENT_NAME + " = ?", new String[] { String.valueOf(name) });
     }
 
 

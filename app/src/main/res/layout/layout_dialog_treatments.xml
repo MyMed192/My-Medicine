@@ -7,9 +7,26 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="8dp"
+        android:text="Add a treatment"
+        android:textColor="#000"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
     <EditText
         android:id="@+id/treatmentTitle"
         android:layout_width="match_parent"
+        android:layout_marginTop="40dp"
         android:layout_height="wrap_content"
         android:hint="Treatment Name:"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,28 +41,56 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/treatmentTitle" />
 
-    <EditText
-    android:id="@+id/treatmentStartDate"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:hint="Start date:"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/treatmentDescription" />
-
-    <EditText
-        android:id="@+id/treatmentEndDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="End date:"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/treatmentStartDate" />
-
     <Spinner
         android:id="@+id/treatmentState"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="5dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/treatmentEndDate" />
+        app:layout_constraintTop_toBottomOf="@+id/treatmentDescription" />
+
+    <EditText
+        android:id="@+id/treatmentStartDate"
+        android:layout_width="206dp"
+        android:layout_height="wrap_content"
+        android:hint="Start date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/treatmentState" />
+
+    <Button
+        android:id="@+id/setEndDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="set date"
+        app:layout_constraintBottom_toTopOf="@+id/saveTreatment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/treatmentEndDate"
+        app:layout_constraintTop_toBottomOf="@+id/setStartDate" />
+
+    <EditText
+        android:id="@+id/treatmentEndDate"
+        android:layout_width="205dp"
+        android:layout_height="wrap_content"
+        android:hint="End date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/treatmentStartDate" />
+
+    <Button
+        android:id="@+id/setStartDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Set Date"
+        app:layout_constraintBottom_toTopOf="@+id/treatmentEndDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/treatmentStartDate"
+        app:layout_constraintTop_toBottomOf="@+id/treatmentState"
+        app:layout_constraintVertical_bias="0.0" />
+
+
 
     <Button
         android:id="@+id/cancelTreatment"
@@ -53,12 +98,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/edit_medicineComments"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="12dp"
         android:text="Cancel"
         app:layout_constraintEnd_toStartOf="@+id/saveTreatment"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/treatmentState" />
+        app:layout_constraintTop_toBottomOf="@+id/treatmentEndDate" />
 
     <Button
         android:id="@+id/saveTreatment"
@@ -66,9 +111,9 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/buttonCancel"
         android:layout_alignParentEnd="true"
-       android:layout_marginTop="24dp"
+       android:layout_marginTop="12dp"
         android:text="Save"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/treatmentState" />
+        app:layout_constraintTop_toBottomOf="@+id/treatmentEndDate" />
 
 </android.support.constraint.ConstraintLayout>
